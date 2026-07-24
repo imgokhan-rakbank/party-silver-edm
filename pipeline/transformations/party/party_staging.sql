@@ -21,7 +21,7 @@ SELECT
   StrUserField17          AS Overall_Negation_Status_Code,
   `__START_AT`,
   `__END_AT`
-FROM STREAM(sandbox_dev.gokhani.crmuser_accounts_clean) WITH (SKIPCHANGECOMMITS)
+FROM STREAM(${source_catalog}.finacle.crmuser_accounts) WITH (SKIPCHANGECOMMITS)
 WHERE bank_id = 'RAK'
   AND ENTITY_CRE_FLAG = 'Y'
   AND corp_id IS NULL;
@@ -32,7 +32,7 @@ SELECT
   STRTEXT5 AS Special_Status_Code,
   `__START_AT`,
   `__END_AT`
-FROM STREAM(sandbox_dev.gokhani.crmuser_miscellaneousinfo_clean) WITH (SKIPCHANGECOMMITS)
+FROM STREAM(${source_catalog}.finacle.crmuser_miscellaneousinfo) WITH (SKIPCHANGECOMMITS)
 WHERE TYPE = 'GENADD';
 
 CREATE TEMPORARY VIEW party_crmuser_corporate_staging AS
@@ -59,5 +59,5 @@ SELECT
   StrUserField17         AS Overall_Negation_Status_Code,
   `__START_AT`,
   `__END_AT`
-FROM STREAM(sandbox_dev.gokhani.crmuser_corporate_clean) WITH (SKIPCHANGECOMMITS)
+FROM STREAM(${source_catalog}.finacle.crmuser_corporate) WITH (SKIPCHANGECOMMITS)
 WHERE ENTITY_CREATE_FLG = 'Y';

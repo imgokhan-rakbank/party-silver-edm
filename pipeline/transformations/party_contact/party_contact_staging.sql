@@ -12,8 +12,8 @@ SELECT
   ''                AS verification_date,
   `__START_AT`,
   `__END_AT`
-FROM STREAM(sandbox_dev.gokhani.crmuser_phoneemail_clean) WITH (SKIPCHANGECOMMITS) b
-INNER JOIN sandbox_dev.gokhani.crmuser_accounts_clean a
+FROM STREAM(${source_catalog}.finacle.crmuser_phoneemail) WITH (SKIPCHANGECOMMITS) b
+INNER JOIN ${source_catalog}.finacle.crmuser_accounts a
   ON b.ORGKEY = a.ORGKEY
  AND a.Entity_cre_flag = 'Y'
  AND a.corp_id IS NULL;

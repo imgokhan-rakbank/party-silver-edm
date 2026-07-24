@@ -13,7 +13,7 @@ SELECT
   CASE WHEN DATEUSERFIELD5 IS NOT NULL THEN 'Y' ELSE 'N' END AS Is_Deceased,
   `__START_AT`,
   `__END_AT`
-FROM STREAM(sandbox_dev.gokhani.crmuser_accounts_clean) WITH (SKIPCHANGECOMMITS)
+FROM STREAM(${source_catalog}.finacle.crmuser_accounts) WITH (SKIPCHANGECOMMITS)
 WHERE ENTITY_CRE_FLAG = 'Y'
   AND CORP_ID IS NULL;
 
@@ -29,8 +29,8 @@ SELECT
   cd.MARITAL_STATUS           AS Marital_Status_Code,
   `__START_AT`,
   `__END_AT`
-FROM STREAM(sandbox_dev.gokhani.crmuser_demographic_clean) WITH (SKIPCHANGECOMMITS) cd
-LEFT JOIN sandbox_dev.gokhani.reference_country rc
+FROM STREAM(${source_catalog}.finacle.crmuser_demographic) WITH (SKIPCHANGECOMMITS) cd
+LEFT JOIN ${source_catalog}.gokhani.reference_country rc
   ON cd.Bank_Defined_Demo_var5 = rc.country_code;
 
 CREATE TEMPORARY VIEW party_individual_crmuser_address_staging AS
@@ -39,7 +39,7 @@ SELECT
   userField7 AS Residence_Ownership_Type_Code,
   `__START_AT`,
   `__END_AT`
-FROM STREAM(sandbox_dev.gokhani.crmuser_address_clean) WITH (SKIPCHANGECOMMITS)
+FROM STREAM(${source_catalog}.finacle.crmuser_address) WITH (SKIPCHANGECOMMITS)
 WHERE AddressCategory = 'RESIDENCE';
 
 CREATE TEMPORARY VIEW party_individual_crmuser_psychographic_staging AS
@@ -48,7 +48,7 @@ SELECT
   NUMBEROFDEPENDANTS AS Number_Of_Dependents,
   `__START_AT`,
   `__END_AT`
-FROM STREAM(sandbox_dev.gokhani.crmuser_psychographic_clean) WITH (SKIPCHANGECOMMITS);
+FROM STREAM(${source_catalog}.finacle.crmuser_psychographic) WITH (SKIPCHANGECOMMITS);
 
 CREATE TEMPORARY VIEW party_individual_crmuser_miscellaneousinfo_staging AS
 SELECT
@@ -56,5 +56,5 @@ SELECT
   strText25 AS Education_Code,
   `__START_AT`,
   `__END_AT`
-FROM STREAM(sandbox_dev.gokhani.crmuser_miscellaneousinfo_clean) WITH (SKIPCHANGECOMMITS)
+FROM STREAM(${source_catalog}.finacle.crmuser_miscellaneousinfo) WITH (SKIPCHANGECOMMITS)
 WHERE TYPE = 'CURRENT_EMPLOYMENT';

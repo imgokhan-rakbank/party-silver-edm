@@ -10,7 +10,7 @@ SELECT
   ''                      AS is_primary,
   `__START_AT`,
   `__END_AT`
-FROM STREAM(sandbox_dev.gokhani.crmuser_accounts_clean) WITH (SKIPCHANGECOMMITS)
+FROM STREAM(${source_catalog}.finacle.crmuser_accounts) WITH (SKIPCHANGECOMMITS)
 WHERE Entity_cre_flag = 'Y'
   AND corp_id IS NULL;
 
@@ -26,5 +26,5 @@ SELECT
   ''                     AS is_primary,
   `__START_AT`,
   `__END_AT`
-FROM STREAM(sandbox_dev.gokhani.crmuser_corporate_clean) WITH (SKIPCHANGECOMMITS)
+FROM STREAM(${source_catalog}.finacle.crmuser_corporate) WITH (SKIPCHANGECOMMITS)
 WHERE ENTITY_CREATE_FLG = 'Y';
