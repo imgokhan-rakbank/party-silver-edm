@@ -1,0 +1,14 @@
+from pyspark import pipelines as dp
+from pyspark.sql import functions as F
+from utilities.silver import create_edm_master_flow
+
+TARGET_TABLE = "party_address"
+KEYS = ["CIF_ID", "address_type_code"]
+SOURCES = [
+    {"source": "party_address_crmuser_address_staging", "name": "Address"}
+    ]
+
+create_edm_master_flow(
+    target = TARGET_TABLE,
+    sources = SOURCES,
+    keys = KEYS)
